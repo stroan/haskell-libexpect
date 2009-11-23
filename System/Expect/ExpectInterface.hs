@@ -58,15 +58,28 @@ expectCases proc cases = do
   if cval < 0 then return Nothing
      	      else return $ Just $ fromEnum cval
 
+expectSingle :: ExpectProc
+             -> String
+             -> ExpType
+             -> IO (Maybe Int)
+expectSingle proc str ec = expectCases proc [ExpectCase str ec 1]
+
 expectExact :: ExpectProc
             -> String
             -> IO (Maybe Int)
-expectExact proc exact = expectCases proc [ExpectCase exact expExact 1]
+expectExact proc exact = expectSingle proc exact expExact
 
 expectRegex :: ExpectProc
             -> String
             -> IO (Maybe Int)
-expectRegex proc reg = expectCases proc [ExpectCase reg expRegexp 1]
+expectRegex proc reg = expectSingle proc reg expRegexp
+
+expectMultiple :: ExpectProc
+               -> [String]
+               -> ExpType
+               -> IO (Maybe Int)
+expectMultiple proc ss ec = expectCases proc cases
+    where cases = map (\(x,y) -> ExpectCase x ec y) (zip ss [1..])
 
 sendLine :: ExpectProc
          -> String
