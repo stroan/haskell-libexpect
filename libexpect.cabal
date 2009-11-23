@@ -1,0 +1,42 @@
+name: libexpect
+version: 0.0.3
+synopsis: Bindings for libexpect
+license: BSD3
+license-file: license.txt
+author: Stephen Roantree
+maintainer: stroantree@gmail.com
+build-type: Configure
+cabal-version: >=1.2
+category: System
+
+description:
+  Bindings to libexpect.
+
+extra-source-files:
+  configure
+  configure.ac
+  libexpect.buildinfo
+  System/Expect/expect_config.h.in
+
+extra-tmp-files:
+  System/Expect/expect_config.h
+  config.log
+  config.status
+
+library
+  ghc-options: -Wall
+  build-depends:
+      base >=4,
+      haskell98
+
+  build-tools:
+    hsc2hs >= 0.67
+
+  exposed-modules:
+    System.Expect
+    System.Expect.ExpectInterface
+
+  other-modules:
+    System.Expect.ExpectBindings
+
+  extra-libraries: expect
