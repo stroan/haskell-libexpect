@@ -9,7 +9,7 @@ module System.Expect.ExpectInterface
   ,ExpectProc(ExpectProc,expectHandle,expectFilePtr)
   ,muteExpect,unmuteExpect
   ,spawnExpect
-  ,expectCases,expectExact,expectRegex,expectMultiple
+  ,expectCases,expectSingle,expectExact,expectRegex,expectMultiple
   ,sendLine)
 where
 

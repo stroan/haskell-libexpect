@@ -1,5 +1,5 @@
 name: libexpect
-version: 0.1.0
+version: 0.2.0
 synopsis: Library for interacting with console applications via pseudoterminals.
 license: BSD3
 license-file: license.txt
@@ -35,6 +35,7 @@ library
   exposed-modules:
     System.Expect
     System.Expect.ExpectInterface
+    System.Expect.ExpectCombinators
 
   other-modules:
     System.Expect.ExpectBindings
