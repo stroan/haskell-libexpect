@@ -1,6 +1,6 @@
 module System.Expect.ExpectCombinators
        ( ExpectM (ExpectM), ExpectOption
-       , spawn, send, switch, wait, check
+       , spawn, send, switch, wait, check, readStr
        , mute, unmute
        , runExpect, runExpectIO )
        where
@@ -10,6 +10,7 @@ import Data.Maybe
 import Control.Applicative
 import Control.Monad
 import System.Expect
+import System.IO
 
 data ExpectM a = ExpectM { expectMProc :: (Maybe ExpectProc -> IO (a, Maybe ExpectProc)) }
 data ExpectOption a = ExpectOption { optionType :: ExpectType
@@ -29,6 +30,11 @@ spawn cmd = ExpectM (\_ -> do { p <- spawnExpect cmd; return ((), Just p) })
 send :: String -- ^ Line to send to the process
      -> ExpectM ()
 send line = ExpectM (\x -> if isJust x then do {sendLine (fromJust x) line; return ((), x) } else return ((), x))
+
+-- | Read N characters from the terminal. Note that this includes characters echoed from send actions.
+readStr :: Int -- ^ Number of characters to read from the terminal
+     -> ExpectM String
+readStr count = ExpectM (\x -> if isJust x then do {a <- replicateM count (hGetChar (expectHandle (fromJust x))); return (a, x) } else return ("", x))
 
 -- | Take a list of cases and run the action of the case that matches,
 -- or return a fail value in the case of no matches.
