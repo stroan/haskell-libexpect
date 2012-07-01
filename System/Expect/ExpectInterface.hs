@@ -14,13 +14,12 @@ module System.Expect.ExpectInterface
 where
 
 import System.Expect.ExpectBindings as EB
-import System.Expect.ExpectBindings
 
 import Foreign
 import Foreign.C.String
 import Foreign.C.Types
-import GHC.Handle
-import IO
+import GHC.IO.Handle.FD
+import System.IO
 
 foreign import ccall "stdio.h fileno" fileno :: Ptr CFile -> IO CInt
 
@@ -79,7 +78,7 @@ expectCases proc cases = do
   sarray <- newArray (scases ++ [endStorableCase])
   cval <- EB.exp_fexpectv (expectFilePtr proc) sarray
   nlist <- peekArray (length scases + 1) sarray
-  mapM freeStorableCase nlist
+  mapM_ freeStorableCase nlist
   if cval < 0 then return Nothing
      	      else return $ Just $ fromEnum cval
 
