@@ -4,7 +4,6 @@ module System.Expect.ExpectBindings where
 import Foreign
 import Foreign.C.Types
 import Foreign.C.String
-import IO
 
 #include "expect_config.h"
 
