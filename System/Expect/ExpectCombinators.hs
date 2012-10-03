@@ -5,7 +5,6 @@ module System.Expect.ExpectCombinators
        , runExpect, runExpectIO )
        where
 
-import Data.List
 import Data.Maybe
 import Control.Applicative
 import Control.Monad
@@ -58,7 +57,7 @@ switch options failVal =  ExpectM (switch')
 wait :: ExpectType -- ^ How pattern is used.
      -> String -- ^ Pattern
      -> ExpectM ()
-wait expType pattern = ExpectM (\x -> do { expectCases (fromJust x) [ExpectCase pattern expType 1]; return ((), x) })
+wait expType pattern = ExpectM (\x -> do { _ <- expectCases (fromJust x) [ExpectCase pattern expType 1]; return ((), x) })
 
 -- | Construct an option for use with switch
 check :: ExpectType  -- ^ How to interpret the pattern
