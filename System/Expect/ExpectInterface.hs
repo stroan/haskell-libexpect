@@ -5,6 +5,7 @@ module System.Expect.ExpectInterface
   ({-- The contents of the binding that are to be further exposed --}
    ExpectType(ExpExact,ExpRegex,ExpGlob,ExpNull)
    {-- The custom interface --}
+  ,initExpect
   ,ExpectCase(ExpectCase,expectPattern,expectType,expectValue)
   ,ExpectProc(ExpectProc,expectHandle,expectFilePtr)
   ,muteExpect,unmuteExpect
@@ -39,6 +40,13 @@ data ExpectCase = ExpectCase { -- | Pattern to match against.
                                -- | The value to return if the case is matched.
 			     , expectValue :: Int     
                              }
+
+-- | tcl and expect initialization.
+initExpect :: IO ()
+initExpect = do
+  interp <- tcl_CreateInterp
+  tcl_Init interp
+  expect_Init interp
 
 -- | Proc created by spawnExpect. Contains both the
 -- CFile pointer and a Haskell handle, so the

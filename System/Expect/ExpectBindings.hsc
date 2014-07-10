@@ -43,3 +43,9 @@ foreign import ccall "&" exp_loguser :: Ptr CInt
 
 foreign import ccall exp_popen :: CString -> IO (Ptr CFile)
 foreign import ccall exp_fexpectv :: Ptr CFile -> Ptr ExpCase -> IO CInt
+
+data TCL_Interp = TCL_Interp
+
+foreign import ccall "Tcl_Init" tcl_Init :: Ptr TCL_Interp -> IO ()
+foreign import ccall "Expect_Init" expect_Init :: Ptr TCL_Interp -> IO ()
+foreign import ccall "Tcl_CreateInterp" tcl_CreateInterp :: IO (Ptr TCL_Interp)
